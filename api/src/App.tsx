@@ -1,18 +1,10 @@
-
-import './App.css'
-
-import ProductList from './components/ProductList';
+import ProductList from "./components/ProductList";
 function App() {
-
-
   return (
-    <div>
-      <ProductList/>
-       <button>Hello world</button>
-       
+    <div className="flex">
+      <ProductList />
     </div>
-
-  )
+  );
 }
 
-export default App
+export default App;
