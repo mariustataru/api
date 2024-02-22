@@ -1,20 +1,13 @@
+import "./App.css";
 
-import './App.css'
-
-import ProductList from './components/ProductList';
-import AddProduct from './components/AddProduct';
+import ProductList from "./components/ProductList";
 function App() {
-
-
   return (
     <div>
-      <AddProduct />
-      <ProductList/>
-       <button>Hello world</button>
-       
+      <ProductList />
+      <button>Hello world</button>
     </div>
-
-  )
+  );
 }
 
-export default App
+export default App;
