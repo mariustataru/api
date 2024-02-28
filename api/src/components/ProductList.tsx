@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import AddProduct from './AddProduct';
 
 
 export const URL = 'https://dummyjson.com/products'
@@ -23,13 +24,17 @@ export const ProductList = () => {
   console.log(products)}
   ) 
 
+
 }
   
 ,[]
  )
-
+  function addNewProduct(newProduct) {
+    setProducts([...products,newProduct])
+  }
 
   return (
+    <>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -55,8 +60,8 @@ export const ProductList = () => {
         </TableBody>
       </Table>
     </TableContainer>
-
-
+    <AddProduct onProductAdded={addNewProduct}/>
+      </>
   )
 };
 
