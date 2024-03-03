@@ -1,9 +1,13 @@
 import { Button } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { productsContext, URL } from "./ProductList";
-
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 
 
@@ -12,11 +16,21 @@ import { productsContext, URL } from "./ProductList";
 export const DeleteProduct = ({productId}) => {
 
   const {setProducts} = useContext(productsContext)
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleDelete = async (id) => {
     try{
        await axios.delete(`${URL}/${id}`);
        setProducts(prevProducts => prevProducts.filter(product => product.id !== id))
+       handleClose();
     }
     catch (error){
         console.error("",error)
@@ -26,8 +40,32 @@ export const DeleteProduct = ({productId}) => {
 
 
   return(
-  <Button onClick={() => handleDelete(productId)} variant="outlined" startIcon={<DeleteIcon />}>
-  </Button>
+    <>
+    <Button variant="outlined" onClick={handleClickOpen}>
+      <DeleteIcon />
+    </Button>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">
+        {"Alert"}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          You sure you want to delete this product?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>Not sure</Button>
+        <Button onClick={() => handleDelete(productId)} autoFocus>
+          I'm positive
+        </Button>
+      </DialogActions>
+    </Dialog>
+  </>
   )
 }
 

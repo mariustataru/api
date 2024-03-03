@@ -37,7 +37,7 @@ export const UpdateProduct = ({productId}) => {
   const {setProducts} = useContext(productsContext)
   const {products} = useContext(productsContext)
 
-  const handleUpdate = async (id) => {
+  const handleUpdate = async (id : number) => {
     try{
       await axios.put(`${URL}/${id}`, {
         title : title,
@@ -46,8 +46,10 @@ export const UpdateProduct = ({productId}) => {
       setProducts(prevProducts => 
         {
           const newProducts = [...prevProducts]
-          prevProducts[id-1].title = title;
-          prevProducts[id-1].description = description;
+         if (title !== '') prevProducts[id-1].title = title
+         else prevProducts[id-1].title = prevProducts[id-1].title
+         if (description !== '') prevProducts[id-1].description = description
+         else prevProducts[id-1].description = prevProducts[id-1].description
           return newProducts
         });
       handleClose();
@@ -87,7 +89,7 @@ export const UpdateProduct = ({productId}) => {
           label="title"
           fullWidth
           variant="standard"
-          defaultValue={products[productId-1].title}
+          defaultValue={products[productId-1]?.title}
         />{" "}
         <TextField
           onChange={handleDescriptionChange}
@@ -99,7 +101,7 @@ export const UpdateProduct = ({productId}) => {
           label="description"
           fullWidth
           variant="standard"
-          defaultValue={products[productId-1].description}
+          defaultValue={products[productId-1]?.description}
         />{" "}
       </DialogContent>{" "}
       <DialogActions>
