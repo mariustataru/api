@@ -16,8 +16,6 @@ export default function AddProduct({onProductAdded}) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-
-
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
   };

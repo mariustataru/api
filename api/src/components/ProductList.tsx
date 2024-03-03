@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect,  createContext } from 'react';
 import axios from 'axios';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,11 +8,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import AddProduct from './AddProduct';
-
+import UpdateProduct from './UpdateProduct';
+import DeleteProduct from './DeleteProduct';
 
 export const URL = 'https://dummyjson.com/products'
 
-
+export const productsContext = createContext();
 
 
 export const ProductList = () => {
@@ -33,8 +34,9 @@ export const ProductList = () => {
     setProducts([...products,newProduct])
   }
 
+
   return (
-    <>
+    <productsContext.Provider value = {{products, setProducts}}>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -46,6 +48,7 @@ export const ProductList = () => {
         </TableHead>
         <TableBody>
           {products.map((product) => (
+            <>
             <TableRow
               key={product.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -53,15 +56,21 @@ export const ProductList = () => {
               <TableCell component="th" scope="row">
                 {product.id}
               </TableCell>
-              <TableCell align="right">{product.title}</TableCell>
+              <TableCell className='bg-gray-500' align="right">{product.title}</TableCell>
               <TableCell align="right">{product.description}</TableCell>
+              <TableCell align='right'>
+              <UpdateProduct productId = {product.id}/>
+              <DeleteProduct productId = {product.id}/>
+              </TableCell>
             </TableRow>
+            </>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
     <AddProduct onProductAdded={addNewProduct}/>
-      </>
+
+    </productsContext.Provider >
   )
 };
 
