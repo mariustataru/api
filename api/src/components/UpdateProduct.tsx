@@ -11,17 +11,19 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 
-export const UpdateProduct = ({productId}) => {
 
-  const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
 
-  const handleDescriptionChange = (event) => {
+export const UpdateProduct = ({productId} : {productId :  number}) => {
+
+  const [open, setOpen] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+
+  const handleDescriptionChange : React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setDescription(event.target.value);
   };
 
-  const handleTitleChange = (event) => {
+  const handleTitleChange = (event : React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
 
@@ -34,8 +36,8 @@ export const UpdateProduct = ({productId}) => {
   };
 
 
-  const {setProducts} = useContext(productsContext)
-  const {products} = useContext(productsContext)
+  const {setProducts} = useContext<ProductContextType>(productsContext)
+  const {products} = useContext<ProductContextType>(productsContext)
 
   const handleUpdate = async (id : number) => {
     try{
@@ -43,7 +45,7 @@ export const UpdateProduct = ({productId}) => {
         title : title,
         description : description
       });
-      setProducts(prevProducts => 
+      setProducts((prevProducts : Product[])  => 
         {
           const newProducts = [...prevProducts]
          if (title !== '') prevProducts[id-1].title = title

@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from "axios";
-import { useContext, useState } from "react";
+import {   useContext, useState } from "react";
 import { productsContext, URL } from "./ProductList";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -13,10 +13,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 
 
-export const DeleteProduct = ({productId}) => {
+export const DeleteProduct = ({productId} : {productId : number}) => {
 
-  const {setProducts} = useContext(productsContext)
-  const [open, setOpen] = useState(false);
+  const {setProducts} = useContext<ProductContextType>(productsContext)
+  const [open, setOpen] = useState<boolean>(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -26,10 +26,10 @@ export const DeleteProduct = ({productId}) => {
     setOpen(false);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id : number) => {
     try{
        await axios.delete(`${URL}/${id}`);
-       setProducts(prevProducts => prevProducts.filter(product => product.id !== id))
+       setProducts((prevProducts : Product[]) => prevProducts.filter(product => product.id !== id))
        handleClose();
     }
     catch (error){

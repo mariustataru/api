@@ -6,21 +6,24 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
-import { URL } from "./ProductList.tsx";
+import  { URL, productsContext } from "./ProductList.tsx";
 
-export default function AddProduct({onProductAdded}) {
+export default function AddProduct() {
 
-  const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const {setProducts} = useContext<ProductContextType>(productsContext)
+  const {products} = useContext<ProductContextType>(productsContext)
 
-  const handleDescriptionChange = (event) => {
+  const [open, setOpen] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+
+  const handleDescriptionChange = (event : React.ChangeEvent<HTMLInputElement>) => {
     setDescription(event.target.value);
   };
 
-  const handleTitleChange = (event) => {
+  const handleTitleChange = (event : React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
 
@@ -36,8 +39,7 @@ export default function AddProduct({onProductAdded}) {
     event.preventDefault();
     try {
       const response = await axios.post(`${URL}/add`, { title : title, description : description });
-      console.log(response.data);
-      onProductAdded(response.data);
+      setProducts([...products,response.data])
       handleClose();
     } catch (error) {
       console.error("Error sending email:", error);

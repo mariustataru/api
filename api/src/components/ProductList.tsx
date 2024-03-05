@@ -13,15 +13,16 @@ import DeleteProduct from './DeleteProduct';
 
 export const URL = 'https://dummyjson.com/products'
 
-export const productsContext = createContext();
+
+export const productsContext = createContext<ProductContextType>();
 
 
 export const ProductList = () => {
 
- const [products, setProducts] = useState([]);
+ const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-  axios.get(URL).then((res) => {setProducts(res.data.products);
+  axios.get<{products : Product[]}>(URL).then((res) => {setProducts(res.data.products);
   console.log(products)}
   ) 
 
@@ -30,9 +31,7 @@ export const ProductList = () => {
   
 ,[]
  )
-  function addNewProduct(newProduct) {
-    setProducts([...products,newProduct])
-  }
+
 
 
   return (
@@ -68,7 +67,7 @@ export const ProductList = () => {
         </TableBody>
       </Table>
     </TableContainer>
-    <AddProduct onProductAdded={addNewProduct}/>
+    <AddProduct />
 
     </productsContext.Provider >
   )
