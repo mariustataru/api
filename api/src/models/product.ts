@@ -6,6 +6,6 @@ export interface Product {
 }
 
 export interface ProductContextType{
-  products? : Product[],
-  setProducts? : React.Dispatch<React.SetStateAction<Product[]>>
+  products : Product[],
+  setProducts : React.Dispatch<React.SetStateAction<Product[]>>
 }

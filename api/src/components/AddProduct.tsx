@@ -10,6 +10,7 @@ import { useState, useContext } from "react";
 import axios from "axios";
 import  { URL, productsContext } from "./ProductList.tsx";
 import {ProductContextType} from "../models/product.ts";
+import { ChangeEvent } from "react";
 
 export default function AddProduct() {
 
@@ -20,11 +21,11 @@ export default function AddProduct() {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
-  const handleDescriptionChange = (event : React.ChangeEvent<HTMLInputElement>) => {
+  const handleDescriptionChange = (event : ChangeEvent<HTMLInputElement>) => {
     setDescription(event.target.value);
   };
 
-  const handleTitleChange = (event : React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event : ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
 
@@ -40,9 +41,8 @@ export default function AddProduct() {
     event.preventDefault();
     try {
       const response = await axios.post(`${URL}/add`, { title : title, description : description });
-      if (setProducts && products) {
         setProducts([...products, response.data])
-      }
+ 
       handleClose();
     } catch (error) {
       console.error("Error sending email:", error);
