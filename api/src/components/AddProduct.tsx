@@ -9,6 +9,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useState, useContext } from "react";
 import axios from "axios";
 import  { URL, productsContext } from "./ProductList.tsx";
+import {ProductContextType} from "../models/product.ts";
 
 export default function AddProduct() {
 
@@ -39,7 +40,9 @@ export default function AddProduct() {
     event.preventDefault();
     try {
       const response = await axios.post(`${URL}/add`, { title : title, description : description });
-      setProducts([...products,response.data])
+      if (setProducts && products) {
+        setProducts([...products, response.data])
+      }
       handleClose();
     } catch (error) {
       console.error("Error sending email:", error);

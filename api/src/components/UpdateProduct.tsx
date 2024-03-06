@@ -1,6 +1,6 @@
 import { Button } from "@mui/material"
 import EditIcon from '@mui/icons-material/Edit';
-import { useContext } from "react";
+import {ChangeEvent, ChangeEventHandler, useContext} from "react";
 import { productsContext, URL } from "./ProductList";
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
@@ -10,6 +10,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
+import {Product, ProductContextType} from "../models/product.ts";
 
 
 
@@ -19,11 +20,11 @@ export const UpdateProduct = ({productId} : {productId :  number}) => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
-  const handleDescriptionChange : React.ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleDescriptionChange : ChangeEventHandler<HTMLInputElement> = (event) => {
     setDescription(event.target.value);
   };
 
-  const handleTitleChange = (event : React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event : ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
 
@@ -45,15 +46,16 @@ export const UpdateProduct = ({productId} : {productId :  number}) => {
         title : title,
         description : description
       });
-      setProducts((prevProducts : Product[])  => 
-        {
+      if (setProducts) {
+        setProducts((prevProducts: Product[]) => {
           const newProducts = [...prevProducts]
-         if (title !== '') prevProducts[id-1].title = title
-         else prevProducts[id-1].title = prevProducts[id-1].title
-         if (description !== '') prevProducts[id-1].description = description
-         else prevProducts[id-1].description = prevProducts[id-1].description
+          if (title !== '') prevProducts[id - 1].title = title
+          else prevProducts[id - 1].title = prevProducts[id - 1].title
+          if (description !== '') prevProducts[id - 1].description = description
+          else prevProducts[id - 1].description = prevProducts[id - 1].description
           return newProducts
         });
+      }
       handleClose();
     }
     catch (error){
@@ -91,7 +93,7 @@ export const UpdateProduct = ({productId} : {productId :  number}) => {
           label="title"
           fullWidth
           variant="standard"
-          defaultValue={products[productId-1]?.title}
+          defaultValue={products ? products[productId-1]?.title : null}
         />{" "}
         <TextField
           onChange={handleDescriptionChange}
@@ -103,7 +105,7 @@ export const UpdateProduct = ({productId} : {productId :  number}) => {
           label="description"
           fullWidth
           variant="standard"
-          defaultValue={products[productId-1]?.description}
+          defaultValue={products ? products[productId-1]?.description: null}
         />{" "}
       </DialogContent>{" "}
       <DialogActions>

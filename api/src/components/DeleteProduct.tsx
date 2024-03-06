@@ -8,9 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
-
-
+import {Product, ProductContextType} from "../models/product.ts";
 
 
 export const DeleteProduct = ({productId} : {productId : number}) => {
@@ -27,9 +25,12 @@ export const DeleteProduct = ({productId} : {productId : number}) => {
   };
 
   const handleDelete = async (id : number) => {
+
     try{
        await axios.delete(`${URL}/${id}`);
-       setProducts((prevProducts : Product[]) => prevProducts.filter(product => product.id !== id))
+      if (setProducts) {
+        setProducts((prevProducts: Product[]) => prevProducts.filter(product => product.id !== id))
+      }
        handleClose();
     }
     catch (error){

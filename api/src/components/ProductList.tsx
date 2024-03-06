@@ -10,11 +10,12 @@ import Paper from '@mui/material/Paper';
 import AddProduct from './AddProduct';
 import UpdateProduct from './UpdateProduct';
 import DeleteProduct from './DeleteProduct';
+import {Product, ProductContextType} from "../models/product.ts";
 
 export const URL = 'https://dummyjson.com/products'
 
 
-export const productsContext = createContext<ProductContextType>();
+export const productsContext = createContext<ProductContextType>({products: [], setProducts: () => console.log("empty")});
 
 
 export const ProductList = () => {
@@ -24,13 +25,9 @@ export const ProductList = () => {
   useEffect(() => {
   axios.get<{products : Product[]}>(URL).then((res) => {setProducts(res.data.products);
   console.log(products)}
-  ) 
-
-
+  )
 }
-  
-,[]
- )
+,[products])
 
 
 
