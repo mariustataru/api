@@ -8,7 +8,6 @@ function App() {
   return (
     <div>
       <ProductList/>
-       <button>Hello world</button>
        
     </div>
 

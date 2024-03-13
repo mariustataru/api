@@ -39,6 +39,7 @@ export default function AddProduct() {
 
   const handleSubmit = async (event : Event) => {
     event.preventDefault();
+    
     try {
       const response = await axios.post(`${URL}/add`, { title : title, description : description });
         setProducts([...products, response.data])

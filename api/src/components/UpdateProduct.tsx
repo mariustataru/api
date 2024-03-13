@@ -46,7 +46,6 @@ export const UpdateProduct = ({productId} : {productId :  number}) => {
         title : title,
         description : description
       });
-      if (setProducts) {
         setProducts((prevProducts: Product[]) => {
           const newProducts = [...prevProducts]
           if (title !== '') prevProducts[id - 1].title = title
@@ -55,7 +54,6 @@ export const UpdateProduct = ({productId} : {productId :  number}) => {
           else prevProducts[id - 1].description = prevProducts[id - 1].description
           return newProducts
         });
-      }
       handleClose();
     }
     catch (error){
