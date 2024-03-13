@@ -16,6 +16,7 @@ import { authentificatedContextType } from '../models/product.ts';
 import PaginationControlled from './Pagination.tsx';
 export const URL = 'https://dummyjson.com/products'
 import SearchField from './Search.tsx';
+import SelectVariants from './Filter.tsx';
 
 
 
@@ -33,15 +34,19 @@ export const authentificatedContext = createContext<authentificatedContextType>(
 
 export const ProductList = ( {} ) => {
 
+  const [category, setCategory] = useState('');
+
  const [searchedItem, setSearchedItem] = useState("");
 
  const [currentPage, setCurrentPage] = useState(1);
+
+ const [categories, setCategories] = useState([]);
 
  const skippedProducts = (currentPage-1)*10
 
  const [products, setProducts] = useState<Product[]>([]);
 
- const [isAuthentificated, setIsAuthentificated] = useState<boolean>(false);
+ const [isAuthentificated, setIsAuthentificated] = useState<boolean>(true);
 
  useEffect(() => {
   axios.get<{products : Product[]}>(`${URL}?skip=${skippedProducts}&limit=10`).then((res) => {setProducts(res.data.products)})
@@ -59,10 +64,24 @@ export const ProductList = ( {} ) => {
 useEffect(() => {
   if(isAuthentificated)  
   axios.get<{products : Product[]}>(`${URL}/search?q=${searchedItem}`).then((res) => {setProducts(res.data.products);
+  console.log(products)
 }
   )
 }
 , [searchedItem])
+
+useEffect(() => {  
+  axios.get('https://dummyjson.com/products/categories').then((res) => {setCategories(res.data);
+  
+}
+  )
+}
+, [searchedItem])
+
+useEffect(() => {
+  axios.get( category !== "" ? `${URL}/category/${category}` : `${URL}?limit=20`).then((res) => {setProducts(res.data.products)} )
+}, [category])
+
 
 
 
@@ -72,6 +91,7 @@ useEffect(() => {
           {isAuthentificated  ? (
         <div>
         <SearchField searchedItem={searchedItem} setSearchedItem={setSearchedItem}/>
+        <SelectVariants categories={categories}  setCategory={setCategory} category={category}/>
        <TableContainer component={Paper}>
          <Table sx={{ minWidth: 650 }} aria-label="simple table">
            <TableHead>

@@ -1,33 +1,35 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
+import {useState} from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-export default function BasicSelect() {
-  const [age, setAge] = React.useState('');
+export default function SelectVariants( {categories, setCategory, category}) {
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
+
+  const handleChange = (event) => {
+    setCategory(event.target.value);
+    console.log(category)
   };
 
+
+
   return (
-    <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+    <div>
+      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+        <InputLabel id="demo-simple-select-standard-label">Filter</InputLabel>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={age}
-          label="Age"
+          labelId="demo-simple-select-standard-label"
+          id="demo-simple-select-standard"
+          value={category}
           onChange={handleChange}
+          label="Filter"
         >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {categories.map((category) =>
+          <MenuItem value={category}>{category}</MenuItem> )}
+
         </Select>
       </FormControl>
-    </Box>
+    </div>
   );
 }

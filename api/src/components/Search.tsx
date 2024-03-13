@@ -16,7 +16,7 @@ export default function SearchField({searchedItem, setSearchedItem}) {
       noValidate
       autoComplete="off"
     >
-      <TextField id="outlined-basic" label="Outlined" variant="outlined" onChange={handleChange} value={searchedItem}/>
+      <TextField id="outlined-basic" label="Search" variant="outlined" onChange={handleChange} value={searchedItem}/>
     </Box>
   );
 }
